@@ -15,7 +15,7 @@ const Loan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/get-loans`
       );
       if (loans) {
-        // console.log("Loan Data : ", loans);
+        console.log("Loan Data : ", loans);
         setLoan(loans);
       }
     } catch (error) {
@@ -71,27 +71,27 @@ const Loan = () => {
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Min Amount
+                      Bank Name
                     </th>
                     <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Max Amount
+                      Branch
                     </th>
                     <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Loan Type
+                      Guardian
                     </th>
                     <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Min Term
+                      Term
                     </th>
-                    <th
+                    {/* <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
@@ -102,7 +102,7 @@ const Loan = () => {
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
                       Mode
-                    </th>
+                    </th> */}
                     <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
@@ -123,19 +123,19 @@ const Loan = () => {
                             </div>
                             <div className="">
                               <p className="text-gray-900 whitespace-no-wrap">
-                                {loan.loanName}
+                                {loan.productName}
                               </p>
                             </div>
                           </div>
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {loan.minAmount}
+                            {loan.bankName}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {loan.maxAmount}
+                            {loan.branch}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -144,9 +144,7 @@ const Loan = () => {
                               aria-hidden="true"
                               className="absolute inset-0 bg-green-200 rounded-full opacity-50"
                             ></span>
-                            <span className="relative">
-                              {loan.collectionType}
-                            </span>
+                            <span className="relative">{loan.gurdianName}</span>
                           </span>
                         </td>
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
@@ -155,10 +153,10 @@ const Loan = () => {
                               aria-hidden="true"
                               className="absolute inset-0 bg-green-200 rounded-full opacity-50"
                             ></span>
-                            <span className="relative">{loan.minTerm}</span>
+                            <span className="relative">{loan.term}</span>
                           </span>
                         </td>
-                        <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+                        {/* <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
                             <span
                               aria-hidden="true"
@@ -177,18 +175,18 @@ const Loan = () => {
                               {loan.collectionMode}
                             </span>
                           </span>
-                        </td>
+                        </td> */}
 
                         <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
                           <span className="relative px-3 flex gap-4 items-center py-1 font-semibold leading-tight">
-                            <Link to={`/update-loan/${loan._id}`}>
+                            {/* <Link to={`/update-loan/${loan._id}`}>
                               <span
                                 className="text-xl cursor-pointer text-green-700"
                                 title="Edit"
                               >
                                 <FaEdit />
                               </span>
-                            </Link>
+                            </Link> */}
                             <Link onClick={() => handleDelete(loan._id)}>
                               <span
                                 className="text-xl cursor-pointer text-red-600"

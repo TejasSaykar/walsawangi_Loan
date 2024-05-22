@@ -104,7 +104,12 @@ const CreateLoan = () => {
           ...inputs,
           productName: inputs.loanCollectionType,
           branch: inputs.branchName,
-          productName: collections.loanName
+          productName: collections.loanName,
+          processingFees: collections.processingFees,
+          fileCharges: collections.fileCharges,
+          legalAmount: collections.legalAmount,
+          GST: collections.GST,
+          insuranceAmount: collections.insuranceAmount,
         }
       );
       if (data) {
@@ -656,7 +661,7 @@ const CreateLoan = () => {
                 <input
                   required
                   type="text"
-                  value={inputs.processingFee}
+                  value={collections.processingFees}
                   onChange={(e) =>
                     setInputs({ ...inputs, processingFee: e.target.value })
                   }
@@ -673,7 +678,7 @@ const CreateLoan = () => {
                 <input
                   required
                   type="text"
-                  value={inputs.fileCharges}
+                  value={collections.fileCharges}
                   onChange={(e) =>
                     setInputs({ ...inputs, fileCharges: e.target.value })
                   }
@@ -693,7 +698,7 @@ const CreateLoan = () => {
                 <input
                   required
                   type="text"
-                  value={inputs.legalAmount}
+                  value={collections.legalAmount}
                   onChange={(e) =>
                     setInputs({ ...inputs, legalAmount: e.target.value })
                   }
@@ -710,7 +715,7 @@ const CreateLoan = () => {
                 <input
                   required
                   type="text"
-                  value={inputs.GST}
+                  value={collections.GST}
                   onChange={(e) =>
                     setInputs({ ...inputs, GST: e.target.value })
                   }
@@ -730,9 +735,12 @@ const CreateLoan = () => {
                 <input
                   required
                   type="text"
-                  value={inputs.insuranceAmount}
+                  value={collections.insuranceAmount}
                   onChange={(e) =>
-                    setInputs({ ...inputs, insuranceAmount: e.target.value })
+                    setInputs({
+                      ...inputs,
+                      insuranceAmount: collections.insuranceAmount,
+                    })
                   }
                   className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
                 />

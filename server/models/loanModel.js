@@ -87,7 +87,7 @@ const loanSchema = new mongoose.Schema(
     purpose: {
       type: String,
     },
-    processingFee: {
+    processingFees: {
       type: Number,
     },
     fileCharges: {
