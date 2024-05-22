@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const fs = require("fs");
+const https = require("https");
 const connectDb = require("./config/db");
 const customerRoute = require("./routes/userRoute");
 const loanRoute = require("./routes/laonRoute");
@@ -28,7 +30,32 @@ app.get("/", (req, res) => {
   res.send("Hello From Walsawangikarurban 1");
 });
 
-const port = process.env.PORT || 8383;
-app.listen(port, () => {
-  console.log(`SERVER IS RUNNING ON http://localhost:${port}`);
-});
+// const port = process.env.PORT || 8383;
+// app.listen(port, () => {
+//   console.log(`SERVER IS RUNNING ON http://localhost:${port}`);
+// });
+
+
+const PORT = 8383;
+const appInProduction = true;
+if (!appInProduction) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT} ✅`);
+  });
+} else {
+  const httpsOptions = {
+    key: fs.readFileSync("./config/https/private.key"),
+    cert: fs.readFileSync("./config/https/certificate.crt"),
+    ca: [fs.readFileSync("./config/https/ca_bundle.crt")],
+  };
+
+  https.createServer(httpsOptions, app).listen(PORT, (error) => {
+    if (error) {
+      console.error("Error starting HTTPS server:", error);
+    } else {
+      console.log(
+        `Server running on https://154-56-63-113.cprapid.com:${PORT} ✅`
+      );
+    }
+  });
+}
