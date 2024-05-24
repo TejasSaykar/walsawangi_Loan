@@ -14,6 +14,8 @@ const depositRoute = require("./routes/depositRoute");
 const journalRoute = require("./routes/journalRoute");
 const receiptRoute = require("./routes/receiptRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const authRoute = require("./routes/authRoute");
+
 
 const app = express();
 
@@ -35,6 +37,7 @@ app.use("/api/deposit", depositRoute);
 app.use("/api/journal", journalRoute);
 app.use("/api/receipt", receiptRoute);
 app.use("/api/payment", paymentRoute);
+app.use("/api/auth", authRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello From Walsawangikarurban 1");
@@ -46,7 +49,7 @@ app.get("/", (req, res) => {
 // });
 
 const PORT = 8383;
-const appInProduction = true;
+const appInProduction = false;
 if (!appInProduction) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT} ✅`);

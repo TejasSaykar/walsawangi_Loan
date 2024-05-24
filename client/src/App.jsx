@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Customer from "./pages/Customer";
 import Loan from "./pages/Loan";
@@ -14,27 +14,143 @@ import Deposit from "./pages/Deposit";
 import JournalVoucher from "./pages/JournalVoucher";
 import ReceiptVoucher from "./pages/ReceiptVoucher";
 import PaymentVoucher from "./pages/PaymentVoucher";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<BankDetails />} />
-      <Route path="/customer" element={<Customer />} />
-      <Route path="/loan" element={<Loan />} />
-      <Route path="/create-loan" element={<CreateLoan />} />
-      <Route path="/add-customer" element={<AddCustomer />} />
-      <Route path="/edit-customer/:id" element={<EditCustomer />} />
-      <Route path="/update-loan/:id" element={<UpdateLoan />} />
-      <Route path="/bank-details" element={<BankDetails />} />
-      <Route path="/group" element={<Group />} />
-      <Route path="/loan-collection" element={<Collection />} />
-      <Route path="/bank-withdraw" element={<Withdrawal />} />
-      <Route path="/bank-deposit" element={<Deposit />} />
-      <Route path="/journal" element={<JournalVoucher />} />
-      <Route path="/receipt" element={<ReceiptVoucher />} />
-      <Route path="/payment" element={<PaymentVoucher />} />
+      <Route
+        path="/"
+        element={
+          <IsAdmin>
+            <BankDetails />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/customer"
+        element={
+          <IsAdmin>
+            <Customer />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/loan"
+        element={
+          <IsAdmin>
+            <Loan />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/create-loan"
+        element={
+          <IsAdmin>
+            <CreateLoan />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/add-customer"
+        element={
+          <IsAdmin>
+            <AddCustomer />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/edit-customer/:id"
+        element={
+          <IsAdmin>
+            <EditCustomer />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/update-loan/:id"
+        element={
+          <IsAdmin>
+            <UpdateLoan />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/bank-details"
+        element={
+          <IsAdmin>
+            <BankDetails />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/group"
+        element={
+          <IsAdmin>
+            <Group />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/loan-collection"
+        element={
+          <IsAdmin>
+            <Collection />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/bank-withdraw"
+        element={
+          <IsAdmin>
+            <Withdrawal />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/bank-deposit"
+        element={
+          <IsAdmin>
+            <Deposit />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/journal"
+        element={
+          <IsAdmin>
+            <JournalVoucher />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/receipt"
+        element={
+          <IsAdmin>
+            <ReceiptVoucher />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <IsAdmin>
+            <PaymentVoucher />
+          </IsAdmin>
+        }
+      />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
+}
+
+export function IsAdmin(props) {
+  const user = localStorage.getItem("auth");
+  if (user) {
+    return props.children;
+  } else {
+    return <Navigate to={"/login"} />;
+  }
 }
 
 export default App;

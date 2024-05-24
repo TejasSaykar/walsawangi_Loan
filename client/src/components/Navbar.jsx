@@ -1,12 +1,19 @@
+import { message } from "antd";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    message.success("Logout Successfully");
+  };
 
   return (
     <nav className="w-full bg-teal-800 text-white">
@@ -37,8 +44,7 @@ const Navbar = () => {
                   <Link
                     to={"/bank-details"}
                     className={`font-medium text-sm ${
-                      location.pathname === '/' &&
-                      "text-red-400"
+                      location.pathname === "/" && "text-red-400"
                     }`}
                   >
                     Bank Master
@@ -85,7 +91,7 @@ const Navbar = () => {
           </Link>
 
           <Link
-          to={'/bank-withdraw'}
+            to={"/bank-withdraw"}
             onMouseEnter={() => setShow1(true)}
             onMouseLeave={() => setShow1(false)}
             onClick={() => setShow1(false)}
@@ -176,6 +182,16 @@ const Navbar = () => {
               </div>
             )}
           </Link>
+
+          <div className="w-2/3 mx-auto flex justify-end">
+            <Link
+              to={"/login"}
+              className="w-fit bg-sky-600 px-4 py-2 rounded-md font-semibold"
+              onClick={handleLogout}
+            >
+              Logout
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
