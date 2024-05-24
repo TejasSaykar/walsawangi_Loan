@@ -4,7 +4,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
