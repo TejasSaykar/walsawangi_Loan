@@ -102,7 +102,6 @@ const CreateLoan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/create`,
         {
           ...inputs,
-          productName: inputs.loanCollectionType,
           branch: inputs.branchName,
           productName: collections.loanName,
           processingFees: collections.processingFees,

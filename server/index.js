@@ -9,6 +9,11 @@ const loanRoute = require("./routes/laonRoute");
 const bankRoute = require("./routes/bankRoute");
 const groupRoute = require("./routes/groupRoute");
 const collectionRoute = require("./routes/collectionRoute");
+const withdrawRoute = require("./routes/withdrawRoute");
+const depositRoute = require("./routes/depositRoute");
+const journalRoute = require("./routes/journalRoute");
+const receiptRoute = require("./routes/receiptRoute");
+const paymentRoute = require("./routes/paymentRoute");
 
 const app = express();
 
@@ -25,6 +30,11 @@ app.use("/api/loan", loanRoute);
 app.use("/api/bank", bankRoute);
 app.use("/api/group", groupRoute);
 app.use("/api/collection", collectionRoute);
+app.use("/api/withdrawal", withdrawRoute);
+app.use("/api/deposit", depositRoute);
+app.use("/api/journal", journalRoute);
+app.use("/api/receipt", receiptRoute);
+app.use("/api/payment", paymentRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello From Walsawangikarurban 1");
@@ -35,9 +45,8 @@ app.get("/", (req, res) => {
 //   console.log(`SERVER IS RUNNING ON http://localhost:${port}`);
 // });
 
-
 const PORT = 8383;
-const appInProduction = true;
+const appInProduction = false;
 if (!appInProduction) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT} ✅`);

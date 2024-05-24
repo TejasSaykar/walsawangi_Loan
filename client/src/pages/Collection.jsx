@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { message } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import Layout from "../components/Layout";
@@ -35,6 +35,8 @@ const Collection = () => {
   const [minTerm, setMinTerm] = useState(undefined);
   const [maxTerm, setMaxTerm] = useState(undefined);
 
+  const navigate = useNavigate();
+
   let totalTerms = [];
   if (minTerm && maxTerm) {
     for (let i = minTerm; i <= maxTerm; i++) {
@@ -54,14 +56,14 @@ const Collection = () => {
           totalTerms,
         }
       );
-      if(data){
-        console.log("Collection Data : ", data.loan)
+      if (data) {
+        console.log("Collection Data : ", data.loan);
+        navigate("/customer");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <Layout>
@@ -540,9 +542,14 @@ const Collection = () => {
                   }
                   className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
                 >
-                  <option value="">--select--</option>
-                  <option value="guarantee">Guarantee</option>
-                  <option value="Collateral">Collateral</option>
+                  <option value="" selected disabled>
+                    --select--
+                  </option>
+                  <option value="Pledge">Pledge</option>
+                  <option value="Mortgage">Mortgage</option>
+                  <option value="Mortgage">Hypothecation</option>
+                  <option value="Guarantee">Guarantee</option>
+                  <option value="Hire Purchase">Hire Purchase</option>
                 </select>
               </div>
             </div>

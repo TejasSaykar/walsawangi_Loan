@@ -8,18 +8,22 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 
 const Customer = () => {
   const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchCustomers = async () => {
     try {
+      setLoading(true);
       const { data: customers } = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/api/customer/get-customers`
       );
       if (customers) {
         // console.log("Data : ", customers);
         setCustomers(customers.customers);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -285,6 +289,13 @@ const Customer = () => {
                       </tr>
                     </>
                   ))}
+                  {loading && (
+                    <div className="w-1/2 mx-auto">
+                      <h2 className="text-center p-4 font-semibold text-teal-700">
+                        Loading...
+                      </h2>
+                    </div>
+                  )}
                 </tbody>
               </table>
             </div>

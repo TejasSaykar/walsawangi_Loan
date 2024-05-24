@@ -61,7 +61,7 @@ exports.updateLoan = async (req, res) => {
   try {
     const loan = await loanModel.findByIdAndUpdate(
       { _id: id },
-      { $set: req.body },
+      { $set: req.body, updatedDate: req.body.date },
       { new: true }
     );
     return res.status(200).json({

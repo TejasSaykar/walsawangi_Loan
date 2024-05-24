@@ -90,6 +90,13 @@ const loanSchema = new mongoose.Schema(
     processingFees: {
       type: Number,
     },
+    updatedDate: {
+      type: String,
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
     fileCharges: {
       type: Number,
     },
