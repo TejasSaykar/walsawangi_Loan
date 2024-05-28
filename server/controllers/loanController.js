@@ -1,13 +1,30 @@
 const loanModel = require("../models/loanModel");
+const emiModel = require("../models/emiModel");
 
 exports.loan = async (req, res) => {
-  // return console.log("Loan : ", req.body);
+  const { term } = req.body;
+
+  const loanReacords = [];
+  const startDate = new Date(req.body.dateOfJoining);
+
+  for (let i = 0; i < term; i++) {
+    const emiDate = new Date(startDate);
+    emiDate.setMonth(emiDate.getMonth() + i);
+
+    loanReacords.push({
+      ...req.body,
+      dueDate: emiDate.toLocaleDateString(),
+    });
+  }
+
   try {
-    const newLoan = await new loanModel({ ...req.body }).save();
+    const emi = await emiModel.insertMany(loanReacords);
+    const loan = await new loanModel({ ...req.body }).save();
     return res.status(201).json({
       success: true,
-      message: "Loan Created",
-      newLoan,
+      message: "Loan created",
+      loan,
+      emi,
     });
   } catch (error) {
     console.log(error);
@@ -59,15 +76,28 @@ exports.getSingleLoan = async (req, res) => {
 exports.updateLoan = async (req, res) => {
   const { id } = req.params;
   try {
-    const loan = await loanModel.findByIdAndUpdate(
+    const emi = await emiModel.findByIdAndUpdate(
       { _id: id },
-      { $set: req.body, updatedDate: req.body.date },
+      { $set: req.body, isPaid: true },
       { new: true }
     );
+
+    const loan = await loanModel.findOne({ loanId: req.body.loanId });
+    loan.advanceAmount += parseInt(req.body.advanceAmount);
+    loan.totalPaid += parseInt(req.body.EMI);
+    loan.totalPayments++;
+
+    const updatedLoan = await loanModel.findByIdAndUpdate(
+      { _id: loan._id },
+      { $set: loan },
+      { new: true }
+    );
+
     return res.status(200).json({
       success: true,
       message: "Loan updated",
-      loan,
+      emi,
+      updatedLoan,
     });
   } catch (error) {
     console.log(error);
@@ -98,4 +128,20 @@ exports.deleteLoan = async (req, res) => {
   }
 };
 
-
+exports.getEmis = async (req, res) => {
+  try {
+    const emis = await emiModel.find({});
+    return res.status(200).json({
+      success: true,
+      message: "Getting all emis",
+      emis,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while getting all emis",
+      error,
+    });
+  }
+};

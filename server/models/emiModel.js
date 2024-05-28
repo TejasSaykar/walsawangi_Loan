@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const loanSchema = new mongoose.Schema(
+const emiSchema = new mongoose.Schema(
   {
     applicantName: {
       type: String,
@@ -22,17 +22,15 @@ const loanSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    totalPaid: {
-      type: Number,
-      default: 0,
+    isPaid: {
+      type: Boolean,
+      default: false,
     },
-    advanceAmount: {
-      type: Number,
-      default: 0,
+    dueDate: {
+      type: String,
     },
-    totalPayments: {
-      type: Number,
-      default: 0,
+    payDate: {
+      type: String,
     },
     branch: {
       type: String,
@@ -153,4 +151,4 @@ const loanSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("loan", loanSchema);
+module.exports = mongoose.model("emi", emiSchema);

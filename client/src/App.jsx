@@ -15,6 +15,8 @@ import JournalVoucher from "./pages/JournalVoucher";
 import ReceiptVoucher from "./pages/ReceiptVoucher";
 import PaymentVoucher from "./pages/PaymentVoucher";
 import Login from "./pages/Login";
+import RepaySingle from "./pages/RepaySingle";
+import RepayGroup from "./pages/RepayGroup";
 
 function App() {
   return (
@@ -136,6 +138,22 @@ function App() {
         element={
           <IsAdmin>
             <PaymentVoucher />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/single-repay"
+        element={
+          <IsAdmin>
+            <RepaySingle />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/group-repay"
+        element={
+          <IsAdmin>
+            <RepayGroup />
           </IsAdmin>
         }
       />

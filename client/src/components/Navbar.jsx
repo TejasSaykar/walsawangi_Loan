@@ -8,6 +8,7 @@ const Navbar = () => {
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -81,12 +82,44 @@ const Navbar = () => {
           </Link>
           <Link
             to={"/loan"}
+            onMouseEnter={() => setShow3(true)}
+            onMouseLeave={() => setShow3(false)}
+            onClick={() => setShow3(false)}
             className={`${
               location.pathname.split("/")[1] == "loan" &&
               "bg-blue-800/40 border border-blue-600"
-            } px-2 rounded-md`}
+            } px-2 rounded-md relative`}
           >
             Loan Section
+            {show3 && (
+              <div
+                onMouseEnter={() => setShow3(true)}
+                onMouseLeave={() => setShow3(false)}
+                onClick={() => setShow3(false)}
+                className="absolute w-[200px] py-2 "
+              >
+                <div className="shadow-lg rounded border border-gray-300 flex flex-col p-4 gap-1 text-teal-800 bg-white">
+                  <Link
+                    to={"/single-repay"}
+                    className={`font-medium text-sm ${
+                      location.pathname.split("/")[1] === "single-repay" &&
+                      "text-red-400"
+                    }`}
+                  >
+                    Loan Re-Payment(Single)
+                  </Link>
+                  <Link
+                    to={"/group-repay"}
+                    className={`${
+                      location.pathname.split("/")[1] === "group-repay" &&
+                      "text-red-400"
+                    } font-medium text-sm`}
+                  >
+                    Loan Re-Payment(Group)
+                  </Link>
+                </div>
+              </div>
+            )}
           </Link>
 
           <Link

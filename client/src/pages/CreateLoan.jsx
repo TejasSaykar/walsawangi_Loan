@@ -58,24 +58,6 @@ const CreateLoan = () => {
     collectionByType();
   }, []);
 
-  // const fetchCustomerByName = async (e) => {
-  //   const customerName = e.target.value;
-  //   try {
-  //     const { data } = await axios.get(
-  //       `${import.meta.env.VITE_BASE_URL}/api/customer/find-by-name`,
-  //       {
-  //         params: { name: customerName },
-  //       }
-  //     );
-  //     if (data) {
-  //       // console.log("Single Customer : ", data);
-  //       setInputs(data.customer[0]);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const fetchCollectionByName = async (e) => {
     let name = e.target.value;
     // setInputs([...inputs, { productName: name }]);
@@ -102,6 +84,7 @@ const CreateLoan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/create`,
         {
           ...inputs,
+          applicantName: inputs.customerName,
           branch: inputs.branchName,
           productName: collections.loanName,
           processingFees: collections.processingFees,
@@ -775,15 +758,16 @@ const CreateLoan = () => {
                 >
                   Payment By
                 </label>
-                <input
-                  required
-                  type="text"
-                  value={inputs.paymentBy}
-                  onChange={(e) =>
-                    setInputs({ ...inputs, paymentBy: e.target.value })
-                  }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
-                />
+                <select className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]">
+                  <option selected disabled>
+                    --select--
+                  </option>
+                  <option value="CASH">CASH</option>
+                  <option value="CHEQUE">CHEQUE</option>
+                  <option value="NEFT">NEFT</option>
+                  <option value="IMPS">IMPS</option>
+                  <option value="ONLINE">ONLINE</option>
+                </select>
               </div>
               <div className="w-full flex gap-3 items-center">
                 <label

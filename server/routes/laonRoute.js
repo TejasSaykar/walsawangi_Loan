@@ -4,6 +4,7 @@ const {
   getSingleLoan,
   updateLoan,
   deleteLoan,
+  getEmis,
 } = require("../controllers/loanController");
 
 const router = require("express").Router();
@@ -17,5 +18,7 @@ router.get("/get-loan/:id", getSingleLoan);
 router.put("/update/:id", updateLoan);
 
 router.delete("/delete/:id", deleteLoan);
+
+router.get("/emis", getEmis);
 
 module.exports = router;

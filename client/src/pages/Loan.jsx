@@ -14,7 +14,6 @@ const Loan = () => {
 
   // console.log("Filtered data : ", filteredData);
 
-
   useEffect(() => {
     if (loanId) {
       const filterData = loan?.loans?.filter((loan) => loan.loanId === loanId);
@@ -66,18 +65,21 @@ const Loan = () => {
   const updateLoan = async (e) => {
     e.preventDefault();
     try {
-      const {data} = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/loan/update/${filteredData._id}`,{
-        ...filteredData,
-        updatedDate: filteredData.date,
-        status: true
-      });
-      if(data){
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/api/loan/update/${filteredData._id}`,
+        {
+          ...filteredData,
+          updatedDate: filteredData.date,
+          status: true,
+        }
+      );
+      if (data) {
         console.log("Updated Data : ", data.loan);
         message.success("Loan Updated !");
         fetchLoans();
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -96,38 +98,24 @@ const Loan = () => {
                 className="px-2 py-1 focus:outline-none ring-1 rounded-md ring-gray-300 focus:ring-blue-400"
               />
             </div>
-            {filteredData && (
-              <div className="w-fit flex gap-2 items-center">
-                <input
-                  type="date"
-                  className="px-4 py-1 focus:outline-none ring-1 ring-gray-400 rounded-md bg-white focus:ring-blue-400"
-                  onChange={(e) =>
-                    setFilteredData({ ...filteredData, date: e.target.value })
-                  }
-                />
-              </div>
-            )}
-            {filteredData ? (
-              <button
-                onClick={updateLoan}
-                className="bg-teal-700 px-5 py-2 rounded-md text-white font-semibold"
-              >
-                Update Loan
-              </button>
-            ) : (
-              <Link
-                to={"/create-loan"}
-                className="bg-teal-700 px-5 py-2 rounded-md text-white font-semibold"
-              >
-                Create Loan
-              </Link>
-            )}
+            <Link
+              to={"/create-loan"}
+              className="bg-teal-700 px-5 py-2 rounded-md text-white font-semibold"
+            >
+              Create Loan
+            </Link>
           </div>
           <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
             <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
               <table className="min-w-full leading-normal">
                 <thead>
                   <tr>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                    >
+                      Loan Id
+                    </th>
                     <th
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
@@ -145,12 +133,6 @@ const Loan = () => {
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
                       Branch
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
-                    >
-                      Guardian
                     </th>
                     <th
                       scope="col"
@@ -182,7 +164,19 @@ const Loan = () => {
                 <tbody>
                   {filteredData ? (
                     <>
-                      <tr key={filteredData._id} className={`${filteredData.status === true ? "bg-sky-400" :"bg-white"}`}>
+                      <tr
+                        key={filteredData._id}
+                        className={`${
+                          filteredData.status === true
+                            ? "bg-sky-400"
+                            : "bg-white"
+                        }`}
+                      >
+                        <td className="px-5 py-5 text-sm border-b border-gray-200">
+                          <p className="text-gray-900 whitespace-no-wrap">
+                            {filteredData?.loanId}
+                          </p>
+                        </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <div className="flex items-center">
                             <div className="flex-shrink-0">
@@ -204,17 +198,6 @@ const Loan = () => {
                           <p className="text-gray-900 whitespace-no-wrap">
                             {filteredData.branch}
                           </p>
-                        </td>
-                        <td className="px-5 py-5 text-sm border-b border-gray-200">
-                          <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                            ></span>
-                            <span className="relative">
-                              {filteredData.gurdianName}
-                            </span>
-                          </span>
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
@@ -253,7 +236,17 @@ const Loan = () => {
                   ) : (
                     loan?.loans?.map((loan) => (
                       <>
-                        <tr key={loan._id} className={`${loan.status === true ? 'bg-sky-400' : 'bg-white'} font-medium`}>
+                        <tr
+                          key={loan._id}
+                          className={`${
+                            loan.status === true ? "bg-sky-400" : "bg-white"
+                          } font-medium`}
+                        >
+                          <td className="px-5 py-5 text-sm border-b border-gray-200">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {loan?.loanId}
+                            </p>
+                          </td>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <div className="flex items-center">
                               <div className="flex-shrink-0">
