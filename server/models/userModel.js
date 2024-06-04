@@ -8,7 +8,6 @@ const customerSchema = new mongoose.Schema(
     },
     applicationNo: {
       type: Number,
-      required: true,
     },
     customerName: {
       type: String,
@@ -20,15 +19,12 @@ const customerSchema = new mongoose.Schema(
     },
     motherName: {
       type: String,
-      required: true,
     },
     maritalStatus: {
       type: String,
-      required: true,
     },
     spouseName: {
       type: String,
-      required: true,
     },
     address: {
       type: String,
@@ -52,23 +48,18 @@ const customerSchema = new mongoose.Schema(
     },
     nomineeName: {
       type: String,
-      required: true,
     },
     nomineeRelation: {
       type: String,
-      required: true,
     },
     nomineeAge: {
       type: Number,
-      required: true,
     },
     bloodGroup: {
       type: String,
-      required: true,
     },
     gender: {
       type: String,
-      required: true,
     },
     phoneNo: {
       type: String,
@@ -76,43 +67,33 @@ const customerSchema = new mongoose.Schema(
     },
     education: {
       type: String,
-      required: true,
     },
     occupation: {
       type: String,
-      required: true,
     },
     branchName: {
       type: String,
-      required: true,
     },
     acNo: {
       type: String,
-      required: true,
     },
     bankName: {
       type: String,
-      required: true,
     },
     ifsc: {
       type: String,
-      required: true,
     },
     branch: {
       type: String,
-      required: true,
     },
     panNo: {
       type: String,
-      required: true,
     },
-    passportNo: {
+    electionCardNo: {
       type: String,
-      required: true,
     },
     rationCardNo: {
       type: String,
-      required: true,
     },
     aadharNo: {
       type: Number,

@@ -41,9 +41,35 @@ const AddCustomer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!inputs.dateOfJoining) {
+      return message.error("Date of joining Required !");
+    }
+    if (!inputs.customerName) {
+      return message.error("Customer name is required !");
+    }
+    if (!inputs.fatherName) {
+      return message.error("Father name is required !");
+    }
+    if (!inputs.address) {
+      return message.error("Address is required !");
+    }
+    if (!inputs.pinCode) {
+      return message.error("Pincode is required !");
+    }
+    if (!inputs.emailAddress) {
+      return message.error("Email address is required !");
+    }
     if (!inputs.dateOfBirth) {
-      message.error("All Fields Are Required !");
-      return;
+      return message.error("Date of birth is required !");
+    }
+    if (!inputs.age) {
+      return message.error("Age is required !");
+    }
+    if (!inputs.phoneNo) {
+      return message.error("Phone number is required !");
+    }
+    if (!inputs.aadharNo) {
+      return message.error("Aadhar number is required !");
     }
     try {
       const { data } = await axios.post(
@@ -82,7 +108,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, dateOfJoining: e.target.value })
                   }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
               <div className="w-full flex gap-3 items-center">
@@ -96,7 +122,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, applicationNo: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 />
               </div>
             </div>
@@ -117,7 +143,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, customerName: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
             </div>
@@ -138,7 +164,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, fatherName: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
             </div>
@@ -158,7 +184,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, motherName: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -175,7 +201,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, maritalStatus: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 >
                   <option selected>--select--</option>
                   <option value="Single">Single</option>
@@ -199,7 +225,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, spouseName: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -218,7 +244,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, address: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -239,7 +265,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, pinCode: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -260,7 +286,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, emailAddress: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -281,7 +307,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, dateOfBirth: e.target.value })
                   }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
               <div className="w-full flex gap-3 items-center">
@@ -296,7 +322,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, age: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 />
               </div>
             </div>
@@ -316,7 +342,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, nomineeName: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -336,7 +362,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, nomineeRelation: e.target.value })
                   }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
               <div className="w-full flex gap-3 items-center">
@@ -350,11 +376,10 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, nomineeAge: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 />
               </div>
             </div>
-
             <div className="grid md:grid-cols-2 items-center gap-6">
               <div className="w-full flex items-center gap-3">
                 <label
@@ -367,7 +392,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, bloodGroup: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 >
                   <option selected>--select--</option>
                   <option value="AB">A</option>
@@ -384,7 +409,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, gender: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 >
                   <option selected>--select--</option>
                   <option value="Male">Male</option>
@@ -393,7 +418,10 @@ const AddCustomer = () => {
                 </select>
               </div>
             </div>
+          </div>
 
+          {/* ***************** Right **************** */}
+          <div className="w-full flex flex-col gap-4 p-4">
             <div className="w-full flex items-center gap-6">
               <div className="w-full flex items-center">
                 <label
@@ -410,14 +438,11 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, phoneNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
-          </div>
 
-          {/* ***************** Right **************** */}
-          <div className="w-full flex flex-col gap-4 p-4">
             <div className="w-full flex items-center gap-6">
               <div className="w-full flex items-center">
                 <label
@@ -434,7 +459,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, education: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -452,7 +477,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, occupation: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 >
                   <option selected>--select--</option>
                   <option value="Salaried">Salaried</option>
@@ -481,7 +506,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, branchName: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -502,7 +527,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, acNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -523,7 +548,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, bankName: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -544,7 +569,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, ifsc: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -565,7 +590,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, branch: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -586,7 +611,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, panNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -598,16 +623,16 @@ const AddCustomer = () => {
                   className="w-1/3 text-sm font-semibold relative"
                 >
                   {/* <span className="text-red-500 pr-[3px]">*</span> */}
-                  Passport No
+                  Election Card No
                 </label>
                 <input
                   required
                   type="text"
-                  value={inputs.passportNo}
+                  value={inputs.electionCardNo}
                   onChange={(e) =>
-                    setInputs({ ...inputs, passportNo: e.target.value })
+                    setInputs({ ...inputs, electionCardNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -628,7 +653,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, rationCardNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -639,7 +664,7 @@ const AddCustomer = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
-                  {/* <span className="text-red-500 pr-[3px]">*</span> */}
+                  <span className="text-red-500 pr-[3px]">*</span>
                   Aadhar No
                 </label>
                 <input
@@ -649,7 +674,7 @@ const AddCustomer = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, aadharNo: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -658,7 +683,7 @@ const AddCustomer = () => {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="border px-10 bg-teal-700 rounded-md text-white py-2 border-teal-700"
+                className="border px-10 bg-teal-700 rounded-sm text-white py-2 border-teal-700"
               >
                 Save
               </button>

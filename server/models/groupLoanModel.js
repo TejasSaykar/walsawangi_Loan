@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 
-const emiSchema = new mongoose.Schema(
+const groupLoanSchema = new mongoose.Schema(
   {
-    applicantName: {
-      type: String,
-      required: true,
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "group"
     },
+
     loanId: {
       type: String,
       required: true,
@@ -14,7 +15,7 @@ const emiSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    memberId: {
+    groupId: {
       type: String,
       required: true,
     },
@@ -22,43 +23,42 @@ const emiSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isPaid: {
-      type: Boolean,
-      default: false,
+    totalPaid: {
+      type: Number,
+      default: 0,
     },
-    dueDate: {
+    advanceAmount: {
+      type: Number,
+      default: 0,
+    },
+    totalPayments: {
+      type: Number,
+      default: 0,
+    },
+    groupName: {
       type: String,
     },
-    payDate: {
+    groupHead: {
       type: String,
     },
-    branch: {
+    branchName: {
       type: String,
       required: true,
     },
-    previousLoan: {
-      type: Number,
-    },
     dateOfBirth: {
-      type: String,
-    },
-    age: {
-      type: Number,
-    },
-    gurdianName: {
       type: String,
     },
     address: {
       type: String,
     },
-    pinCode: {
+    state: {
+      type: String,
+    },
+    PIN: {
       type: Number,
     },
     phoneNo: {
       type: Number,
-    },
-    gender: {
-      type: String,
     },
     productName: {
       type: String,
@@ -70,9 +70,22 @@ const emiSchema = new mongoose.Schema(
     },
     term: {
       type: String,
+      required: true,
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    isApprove: {
+      type: Boolean,
+      default: false,
+    },
+    approveDate: {
+      type: String,
     },
     mode: {
       type: String,
+      required: true,
     },
     loanAmount: {
       type: Number,
@@ -88,37 +101,19 @@ const emiSchema = new mongoose.Schema(
     interestType: {
       type: String,
     },
-    collectorCode: {
-      type: String,
-      required: true,
-    },
-    purpose: {
-      type: String,
-      required: true,
-    },
     processingFees: {
       type: Number,
     },
     updatedDate: {
       type: String,
     },
-    status: {
-      type: Boolean,
-      default: false,
-    },
-    fileCharges: {
-      type: Number,
-    },
     legalAmount: {
       type: Number,
     },
-    GST: {
+    serviceTax: {
       type: Number,
     },
     insuranceAmount: {
-      type: Number,
-    },
-    disburseAmount: {
       type: Number,
     },
     paymentBy: {
@@ -127,24 +122,26 @@ const emiSchema = new mongoose.Schema(
     },
     chequeNo: {
       type: String,
+      required: true,
     },
     chequeDate: {
       type: String,
+      required: true,
     },
     bankAC: {
       type: String,
+      required: true,
     },
     bankName: {
       type: String,
+      required: true,
     },
     fromAC: {
       type: String,
-    },
-    amount: {
-      type: Number,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("emi", emiSchema);
+module.exports = mongoose.model("grouploan", groupLoanSchema);

@@ -44,6 +44,22 @@ const BankDetails = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    if (!inputs.accountNo) {
+      return message.error("Account number is required!");
+    }
+    if (!inputs.bankName) {
+      return message.error("Bank name is required!");
+    }
+    if (!inputs.phoneNo) {
+      return message.error("Phone number is required!");
+    }
+    if (!inputs.openingAmount) {
+      return message.error("Opening amount is required!");
+    }
+    if (!inputs.openingDate) {
+      return message.error("Opening date is required!");
+    }
+
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/bank/create`,
@@ -157,7 +173,11 @@ const BankDetails = () => {
               <form className="flex flex-col gap-6">
                 <div className="w-full flex items-center gap-6">
                   <div className="w-full flex items-center">
-                    <label htmlFor="" className="w-1/3 text-sm font-semibold">
+                    <label
+                      htmlFor=""
+                      className="w-[40%] text-sm font-semibold relative"
+                    >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Account Number
                     </label>
                     <input
@@ -173,7 +193,11 @@ const BankDetails = () => {
 
                 <div className="w-full grid grid-cols-1 items-center gap-6">
                   <div className="w-full flex items-center">
-                    <label htmlFor="" className="w-1/3 text-sm font-semibold">
+                    <label
+                      htmlFor=""
+                      className="w-1/3 text-sm font-semibold relative"
+                    >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Bank Name
                     </label>
                     <input
@@ -227,8 +251,9 @@ const BankDetails = () => {
                   <div className="w-full flex items-center">
                     <label
                       htmlFor=""
-                      className="w-1/3 text-sm font-semibold relative"
+                      className="w-[40%] text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Opening Amount
                     </label>
                     <input

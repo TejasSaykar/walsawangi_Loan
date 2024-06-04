@@ -4,6 +4,8 @@ const {
   getSingleGroup,
   updateGroup,
   deleteGroup,
+  groupNames,
+  findByGroupName,
 } = require("../controllers/groupController");
 
 const router = require("express").Router();
@@ -17,5 +19,9 @@ router.get("/single-group/:id", getSingleGroup);
 router.put("/update-group/:id", updateGroup);
 
 router.delete("/delete-group/:id", deleteGroup);
+
+router.get("/get-group-names", groupNames);
+
+router.get("/find-by-name", findByGroupName);
 
 module.exports = router;

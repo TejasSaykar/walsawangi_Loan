@@ -3,10 +3,10 @@ import Layout from "../components/Layout";
 import axios from "axios";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { message } from "antd";
 
 const RepaySingle = () => {
-  const [loan, setLoan] = useState([]);
-  const [filteredData, setFilteredData] = useState(undefined);
+  const [loan, setLoan] = useState({});
   const [allEmis, setAllEmis] = useState([]);
   const [unpaidData, setUnpaidData] = useState([]);
   const [singleUnpaid, setSingleUnpaid] = useState({});
@@ -15,15 +15,14 @@ const RepaySingle = () => {
   const [loading, setLoading] = useState(false);
   const [paymentBy, setPaymentBy] = useState("");
 
-  console.log("Single Unpaid State : ", singleUnpaid);
-  console.log("FilteredData : ", filteredData);
-
   useEffect(() => {
     if (singleUnpaid.totalAmount > singleUnpaid.EMI) {
       let advance = singleUnpaid.totalAmount - singleUnpaid.EMI;
-      setFilteredData({ ...filteredData, advanceAmount: advance });
+      setLoan({ ...loan, advanceAmount: advance });
+    } else {
+      setLoan({ ...loan, advanceAmount: 0 });
     }
-  }, [singleUnpaid, setFilteredData]);
+  }, [singleUnpaid, setLoan]);
 
   const handleGeneratePDF = () => {
     const input = document.querySelectorAll(".pdf-content");
@@ -49,59 +48,56 @@ const RepaySingle = () => {
     }
   }, [loanId, loan, allEmis]);
 
-  useEffect(() => {
-    if (loanId) {
-      const filterData = loan?.loans?.filter((loan) => loan.loanId === loanId);
-      setFilteredData(filterData[0]);
-    } else {
-      setFilteredData(undefined);
-    }
-  }, [loanId, loan]);
-
   const singleUnpaidData = (id) => {
     const unpay = unpaidData?.filter((item) => item._id == id);
     setSingleUnpaid(unpay[0]);
   };
 
-  const fetchLoans = async () => {
+  const fetchLoans = async (e) => {
     try {
       setLoading(true);
-      const { data: loans } = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/loan/get-loans`
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/api/loan/get-loanId/${loanId}`
       );
-      if (loans) {
-        console.log("Loan Data : ", loans.loans);
-        setLoan(loans);
+      if (data) {
+        // console.log("Loan Data : ", data.loan);
+        setLoan(data.loan);
         setLoading(false);
       }
+      fetchEmis();
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      console.log(error.response.data.message);
+      message.error(error.response.data.message);
     }
   };
 
   const fetchEmis = async () => {
     try {
       const { data: emis } = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/loan/emis`
+        `${import.meta.env.VITE_BASE_URL}/api/loan/emis/${loanId}`
       );
       if (emis) {
-        console.log("Emis : ", emis.emis);
+        // console.log("Emis : ", emis.emis);
         setAllEmis(emis.emis);
       }
     } catch (error) {
       console.log(error);
+      message.error(error.response.data.message);
     }
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    if(!singleUnpaid.paymentNumber){
+      return message.error("Payment number is required!")
+    }
     try {
       const { data } = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/api/loan/update/${singleUnpaid._id}`,
         {
           ...singleUnpaid,
-          advanceAmount: filteredData.advanceAmount,
+          advanceAmount: loan.advanceAmount,
         }
       );
       if (data) {
@@ -122,7 +118,7 @@ const RepaySingle = () => {
           paymentNumber: "",
           payDate: "",
         });
-        setFilteredData({
+        setLoan({
           totalPaid: "",
           advanceAmount: "",
         });
@@ -131,17 +127,16 @@ const RepaySingle = () => {
       }
     } catch (error) {
       console.log(error);
+      message.error(error.response.data.message);
     }
   };
-
-  useEffect(() => {
-    fetchLoans();
-    fetchEmis();
-  }, []);
 
   return (
     <Layout>
       <div className="w-full">
+        <div>
+          <h2 className="text-center font-semibold text-2xl pt-3 text-stone-700">Single Loan Re-Payment</h2>
+        </div>
         <div className="w-full grid grid-cols-12">
           <div
             className="col-span-4 pt-4 border-r-[3px] pr-4 pdf-content"
@@ -152,13 +147,28 @@ const RepaySingle = () => {
                 Search
               </h2>
               <div className="mt-3 flex items-center gap-4">
-                <span className="w-[35%] font-semibold">Enter Loan ID</span>
+                <span className="w-[50%] font-semibold">Enter Loan ID</span>
                 <input
                   type="text"
                   value={loanId}
                   onChange={(e) => setLoanId(e.target.value)}
                   className="w-full focus:outline-none ring-1 ring-gray-400 px-1 focus:ring-blue-400"
                 />
+                {loading ? (
+                  <button
+                    className="w-[50%] bg-teal-400 animate-pulse text-white p-1 py-[6px] text-sm font-semibold"
+                    onClick={fetchLoans}
+                  >
+                    Loading....
+                  </button>
+                ) : (
+                  <button
+                    className="w-[50%] bg-teal-700 text-white p-1 py-[6px] text-sm font-semibold"
+                    onClick={fetchLoans}
+                  >
+                    Fetch Loan
+                  </button>
+                )}
               </div>
               <div className="mt-5">
                 <h2 className="bg-teal-800 text-center text-white font-semibold py-[1.8px]">
@@ -172,10 +182,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.loanId}
+                        value={loan?.loanId}
                         onChange={(e) =>
                           setFilteredData({
-                            ...filteredData,
+                            ...loan,
                             loanId: e.target.value,
                           })
                         }
@@ -188,10 +198,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.formNo}
+                        value={loan?.formNo}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             formNo: e.target.value,
                           })
                         }
@@ -207,10 +217,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.memberId}
+                        value={loan?.memberId}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             memberId: e.target.value,
                           })
                         }
@@ -223,10 +233,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="Date"
-                        value={filteredData?.dateOfJoining}
+                        value={loan?.dateOfJoining}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             dateOfJoining: e.target.value,
                           })
                         }
@@ -241,10 +251,10 @@ const RepaySingle = () => {
                     </label>
                     <input
                       type="text"
-                      value={filteredData?.applicantName}
+                      value={loan?.applicantName}
                       onChange={(e) =>
-                        setFilteredData({
-                          ...filteredData,
+                        setLoan({
+                          ...loan,
                           applicantName: e.target.value,
                         })
                       }
@@ -259,10 +269,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.phoneNo}
+                        value={loan?.phoneNo}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             phoneNo: e.target.value,
                           })
                         }
@@ -275,10 +285,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.age}
+                        value={loan?.age}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             age: e.target.value,
                           })
                         }
@@ -294,10 +304,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.productName}
+                        value={loan?.productName}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             productName: e.target.value,
                           })
                         }
@@ -310,10 +320,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.term}
+                        value={loan?.term}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             term: e.target.value,
                           })
                         }
@@ -329,10 +339,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.loanAmount}
+                        value={loan?.loanAmount}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             loanAmount: e.target.value,
                           })
                         }
@@ -345,10 +355,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.mode}
+                        value={loan?.mode}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             mode: e.target.value,
                           })
                         }
@@ -361,6 +371,7 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
+                        value={loan?.ROI}
                         className="w-full focus:outline-none ring-1 ring-gray-400 px-1 focus:ring-blue-400"
                       />
                     </div>
@@ -373,10 +384,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.processingFees}
+                        value={loan?.processingFees}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             processingFees: e.target.value,
                           })
                         }
@@ -389,10 +400,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.insuranceAmount}
+                        value={loan?.insuranceAmount}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             insuranceAmount: e.target.value,
                           })
                         }
@@ -408,10 +419,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="number"
-                        value={filteredData?.EMI}
+                        value={loan?.EMI}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             EMI: e.target.value,
                           })
                         }
@@ -425,8 +436,8 @@ const RepaySingle = () => {
                       <input
                         type="text"
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             SBAccount: e.target.value,
                           })
                         }
@@ -441,11 +452,11 @@ const RepaySingle = () => {
                       Account No
                     </label>
                     <input
-                      type="number"
-                      value={filteredData?.bankAC}
+                      type="text"
+                      value={loan?.bankAC}
                       onChange={(e) =>
-                        setFilteredData({
-                          ...filteredData,
+                        setLoan({
+                          ...loan,
                           bankAC: e.target.value,
                         })
                       }
@@ -460,8 +471,8 @@ const RepaySingle = () => {
                     <input
                       type="text"
                       onChange={(e) =>
-                        setFilteredData({
-                          ...filteredData,
+                        setLoan({
+                          ...loan,
                           loanPolicy: e.target.value,
                         })
                       }
@@ -477,6 +488,7 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
+                        value={loan?.paymentBy}
                         className="w-2/3 focus:outline-none ring-1 ring-gray-400 px-1 focus:ring-blue-400"
                       />
                     </div>
@@ -486,10 +498,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.chequeNo}
+                        value={loan?.chequeNo}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             chequeNo: e.target.value,
                           })
                         }
@@ -505,10 +517,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="date"
-                        value={filteredData?.chequeDate}
+                        value={loan?.chequeDate}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             chequeDate: e.target.value,
                           })
                         }
@@ -521,10 +533,10 @@ const RepaySingle = () => {
                       </label>
                       <input
                         type="text"
-                        value={filteredData?.bankAC}
+                        value={loan?.bankAC}
                         onChange={(e) =>
-                          setFilteredData({
-                            ...filteredData,
+                          setLoan({
+                            ...loan,
                             bankAC: e.target.value,
                           })
                         }
@@ -539,10 +551,10 @@ const RepaySingle = () => {
                     </label>
                     <input
                       type="text"
-                      value={filteredData?.bankName}
+                      value={loan?.bankName}
                       onChange={(e) =>
-                        setFilteredData({
-                          ...filteredData,
+                        setLoan({
+                          ...loan,
                           bankName: e.target.value,
                         })
                       }
@@ -584,7 +596,7 @@ const RepaySingle = () => {
                   <label className="text-sm font-semibold">Total Paid</label>
                   <input
                     type="number"
-                    value={filteredData?.totalPaid}
+                    value={loan?.totalPaid}
                     onChange={(e) =>
                       setSingleUnpaid({
                         ...singleUnpaid,
@@ -611,10 +623,10 @@ const RepaySingle = () => {
                   </label>
                   <input
                     type="number"
-                    value={filteredData?.advanceAmount}
+                    value={loan?.advanceAmount}
                     onChange={(e) =>
-                      setFilteredData({
-                        ...filteredData,
+                      setLoan({
+                        ...loan,
                         advanceAmount: e.target.value,
                       })
                     }
@@ -880,12 +892,21 @@ const RepaySingle = () => {
                   <button className="bg-teal-600 text-white font-semibold px-4 py-2 rounded-md">
                     Save
                   </button>
-                  <button
-                    onClick={handleUpdate}
-                    className="bg-teal-600 text-white font-semibold px-4 py-2 rounded-md"
-                  >
-                    Update
-                  </button>
+                  {loading ? (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-teal-700 animate-pulse text-white font-semibold px-4 py-2 rounded-md"
+                    >
+                      Loading...
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-teal-600 text-white font-semibold px-4 py-2 rounded-md"
+                    >
+                      Update
+                    </button>
+                  )}
                   <button className="bg-red-600 text-white font-semibold px-4 py-2 rounded-md">
                     Delete
                   </button>

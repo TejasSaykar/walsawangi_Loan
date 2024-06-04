@@ -49,6 +49,30 @@ const Group = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    if(!inputs.groupCode){
+      return message.error("Group code is required!")
+    }
+    if(!inputs.openingDate){
+      return message.error("Opening date is required!")
+    }
+    if(!inputs.groupBranch){
+      return message.error("Group branch is required!")
+    }
+    if(!inputs.collectorCode){
+      return message.error("Collector code is required!")
+    }
+    if(!inputs.groupName){
+      return message.error("Group name is required!")
+    }
+    if(!inputs.groupHead){
+      return message.error("Group head is required!")
+    }
+    if(!inputs.phoneNo){
+      return message.error("Phone number is required!")
+    }
+    if(!inputs.memberCode){
+      return message.error("Member code is required!")
+    }
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/group/create-group`,
@@ -119,7 +143,7 @@ const Group = () => {
           memberCode: "",
           name: "",
         });
-        setRowId("")
+        setRowId("");
       }
     } catch (error) {
       console.log(error);
@@ -183,7 +207,11 @@ const Group = () => {
               <form className="flex flex-col gap-4">
                 <div className="w-full flex items-center gap-6">
                   <div className="w-full flex items-center">
-                    <label htmlFor="" className="w-1/3 text-sm font-semibold">
+                    <label
+                      htmlFor=""
+                      className="w-1/3 text-sm font-semibold relative"
+                    >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Group Code
                     </label>
                     <input
@@ -199,7 +227,11 @@ const Group = () => {
 
                 <div className="w-full grid grid-cols-1 items-center gap-6">
                   <div className="w-full flex items-center">
-                    <label htmlFor="" className="w-1/3 text-sm font-semibold">
+                    <label
+                      htmlFor=""
+                      className="w-1/3 text-sm font-semibold relative"
+                    >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Opening Date
                     </label>
                     <input
@@ -217,6 +249,7 @@ const Group = () => {
                       htmlFor=""
                       className="w-1/3 text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Group Branch
                     </label>
                     <input
@@ -235,8 +268,9 @@ const Group = () => {
                   <div className="w-full flex items-center justify-between">
                     <label
                       htmlFor=""
-                      className="w-1/3 text-sm font-semibold relative"
+                      className="w-[50%] text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Collector Code
                     </label>
                     <input
@@ -269,6 +303,7 @@ const Group = () => {
                       htmlFor=""
                       className="w-1/3 text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Group Name
                     </label>
                     <input
@@ -289,6 +324,7 @@ const Group = () => {
                       htmlFor=""
                       className="w-1/3 text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Group Head
                     </label>
                     <input
@@ -309,6 +345,7 @@ const Group = () => {
                       htmlFor=""
                       className="w-1/3 text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Phone No
                     </label>
                     <input
@@ -349,6 +386,7 @@ const Group = () => {
                       htmlFor=""
                       className="w-1/3 text-sm font-semibold relative"
                     >
+                      <span className="text-sm mr-1 text-red-600">*</span>
                       Member Code
                     </label>
                     <input

@@ -96,3 +96,46 @@ exports.deleteGroup = async (req, res) => {
     });
   }
 };
+
+exports.groupNames = async (req, res) => {
+  try {
+    const groups = await groupModel.find({}, "groupName");
+    const groupNames = groups.filter((group) => group.groupName);
+    return res.status(200).json({
+      success: true,
+      message: "Getting all group names",
+      groupNames,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while getting the group names",
+      error,
+    });
+  }
+};
+
+exports.findByGroupName = async (req, res) => {
+  const { groupName } = req.query;
+  try {
+    const group = await groupModel.findOne({
+      groupName: new RegExp(groupName, "i"),
+    });
+    if (!group) {
+      return res.status(404).json("Group not found");
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Getting the group",
+      group,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Error while getting the group by name",
+      error,
+    });
+  }
+};

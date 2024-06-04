@@ -16,7 +16,6 @@ const bankSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true,
     },
     openingAmount: {
       type: Number,

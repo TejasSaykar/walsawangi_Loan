@@ -4,7 +4,10 @@ const loanSchema = new mongoose.Schema(
   {
     applicantName: {
       type: String,
-      required: true,
+    },
+    applicantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "customer",
     },
     loanId: {
       type: String,
@@ -43,19 +46,15 @@ const loanSchema = new mongoose.Schema(
     },
     dateOfBirth: {
       type: String,
-      required: true,
     },
     age: {
       type: Number,
-      required: true,
     },
     gurdianName: {
       type: String,
-      required: true,
     },
     address: {
       type: String,
-      required: true,
     },
     pinCode: {
       type: Number,
@@ -88,20 +87,21 @@ const loanSchema = new mongoose.Schema(
     },
     ROI: {
       type: Number,
-      required: true,
     },
     EMI: {
       type: Number,
+      required: true,
     },
     interestType: {
       type: String,
-      required: true,
     },
     collectorCode: {
       type: String,
+      required: true,
     },
     purpose: {
       type: String,
+      required: true,
     },
     processingFees: {
       type: Number,
@@ -112,6 +112,13 @@ const loanSchema = new mongoose.Schema(
     status: {
       type: Boolean,
       default: false,
+    },
+    isApprove: {
+      type: Boolean,
+      default: false,
+    },
+    approveDate: {
+      type: String,
     },
     fileCharges: {
       type: Number,
@@ -130,21 +137,27 @@ const loanSchema = new mongoose.Schema(
     },
     paymentBy: {
       type: String,
+      required: true,
     },
     chequeNo: {
       type: String,
+      required: true,
     },
     chequeDate: {
       type: String,
+      required: true,
     },
     bankAC: {
       type: String,
+      required: true,
     },
     bankName: {
       type: String,
+      required: true,
     },
     fromAC: {
       type: String,
+      required: true,
     },
     amount: {
       type: Number,

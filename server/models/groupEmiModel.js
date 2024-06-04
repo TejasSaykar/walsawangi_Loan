@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
-const emiSchema = new mongoose.Schema(
+const groupEmiSchema = new mongoose.Schema(
   {
-    applicantName: {
-      type: String,
-      required: true,
-    },
     loanId: {
       type: String,
       required: true,
@@ -14,7 +10,7 @@ const emiSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    memberId: {
+    groupId: {
       type: String,
       required: true,
     },
@@ -32,33 +28,30 @@ const emiSchema = new mongoose.Schema(
     payDate: {
       type: String,
     },
-    branch: {
+    groupName: {
+      type: String,
+    },
+    groupHead: {
+      type: String,
+    },
+    branchName: {
       type: String,
       required: true,
     },
-    previousLoan: {
-      type: Number,
-    },
     dateOfBirth: {
-      type: String,
-    },
-    age: {
-      type: Number,
-    },
-    gurdianName: {
       type: String,
     },
     address: {
       type: String,
     },
-    pinCode: {
+    state: {
+      type: String,
+    },
+    PIN: {
       type: Number,
     },
     phoneNo: {
       type: Number,
-    },
-    gender: {
-      type: String,
     },
     productName: {
       type: String,
@@ -88,37 +81,19 @@ const emiSchema = new mongoose.Schema(
     interestType: {
       type: String,
     },
-    collectorCode: {
-      type: String,
-      required: true,
-    },
-    purpose: {
-      type: String,
-      required: true,
-    },
     processingFees: {
       type: Number,
     },
     updatedDate: {
       type: String,
     },
-    status: {
-      type: Boolean,
-      default: false,
-    },
-    fileCharges: {
-      type: Number,
-    },
     legalAmount: {
       type: Number,
     },
-    GST: {
-      type: Number,
+    serviceTax: {
+      type: String,
     },
     insuranceAmount: {
-      type: Number,
-    },
-    disburseAmount: {
       type: Number,
     },
     paymentBy: {
@@ -140,11 +115,8 @@ const emiSchema = new mongoose.Schema(
     fromAC: {
       type: String,
     },
-    amount: {
-      type: Number,
-    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("emi", emiSchema);
+module.exports = mongoose.model("groupemi", groupEmiSchema);

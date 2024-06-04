@@ -35,11 +35,9 @@ const collectionSchema = new mongoose.Schema(
     },
     minAge: {
       type: Number,
-      required: true,
     },
     maxAge: {
       type: Number,
-      required: true,
     },
     minROI: {
       type: Number,
@@ -75,7 +73,6 @@ const collectionSchema = new mongoose.Schema(
     },
     fileCharges: {
       type: Number,
-      required: true,
     },
     gracePeriod: {
       type: String,
@@ -83,7 +80,6 @@ const collectionSchema = new mongoose.Schema(
     },
     fineInterest: {
       type: Number,
-      required: true,
     },
     EMIType: {
       type: String,

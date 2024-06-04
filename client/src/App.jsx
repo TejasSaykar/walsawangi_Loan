@@ -17,6 +17,11 @@ import PaymentVoucher from "./pages/PaymentVoucher";
 import Login from "./pages/Login";
 import RepaySingle from "./pages/RepaySingle";
 import RepayGroup from "./pages/RepayGroup";
+import GroupLoan from "./pages/GroupLoan";
+import CreateGroupLoan from "./pages/CreateGroupLoan";
+import RequisitionReport from "./pages/RequisitionReport";
+import ApprovalReport from "./pages/ApprovalReport";
+import DueReport from "./pages/DueReport";
 
 function App() {
   return (
@@ -53,6 +58,25 @@ function App() {
           </IsAdmin>
         }
       />
+
+      <Route
+        path="/group-loan"
+        element={
+          <IsAdmin>
+            <GroupLoan />
+          </IsAdmin>
+        }
+      />
+
+      <Route
+        path="/create-group-loan"
+        element={
+          <IsAdmin>
+            <CreateGroupLoan />
+          </IsAdmin>
+        }
+      />
+
       <Route
         path="/add-customer"
         element={
@@ -154,6 +178,30 @@ function App() {
         element={
           <IsAdmin>
             <RepayGroup />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/loan-requisition"
+        element={
+          <IsAdmin>
+            <RequisitionReport />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/loan-approval"
+        element={
+          <IsAdmin>
+            <ApprovalReport />
+          </IsAdmin>
+        }
+      />
+      <Route
+        path="/loan-due"
+        element={
+          <IsAdmin>
+            <DueReport />
           </IsAdmin>
         }
       />

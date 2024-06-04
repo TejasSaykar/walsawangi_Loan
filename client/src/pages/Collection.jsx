@@ -46,6 +46,66 @@ const Collection = () => {
 
   const hadleSubmit = async (e) => {
     e.preventDefault();
+    if(!inputs.loanName){
+      return message.error("Loan name is required!")
+    }
+    if(!inputs.loanCode){
+      return message.error("Loan code is required!")
+    }
+    if(!inputs.collectionMode){
+      return message.error("Collection mode is required!")
+    }
+    if(!inputs.minAmount){
+      return message.error("Min amount is required!")
+    }
+    if(!inputs.maxAmount){
+      return message.error("Max amount is required!")
+    }
+    if(!inputs.minTerm){
+      return message.error("Min term is required!")
+    }
+    if(!inputs.maxTerm){
+      return message.error("Max term is required!")
+    }
+    if(!inputs.minROI){
+      return message.error("Min ROI is required!")
+    }
+    if(!inputs.maxROI){
+      return message.error("Max ROI is required!")
+    }
+    if(!inputs.ROIStep){
+      return message.error("ROI step is required!")
+    }
+    if(!inputs.collectionType){
+      return message.error("Collection type is required!")
+    }
+    if(!inputs.processingFees){
+      return message.error("Processing fees is required!")
+    }
+    if(!inputs.GST){
+      return message.error("GST is required!")
+    }
+    if(!inputs.legalAmount){
+      return message.error("Legal amount is required!")
+    }
+    if(!inputs.insuranceAmount){
+      return message.error("Insurance amount is required!")
+    }
+    if(!inputs.gracePeriod){
+      return message.error("Grace period is required!")
+    }
+    if(!inputs.EMIType){
+      return message.error("EMI type is required!")
+    }
+    if(!inputs.interestOption){
+      return message.error("Interest rate option is required!")
+    }
+    if(!inputs.loanCollectionType){
+      return message.error("Loan collection is required!")
+    }
+    if(!inputs.typeOfSecurity){
+      return message.error("Security type is required!")
+    }
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/collection/create`,
@@ -75,7 +135,11 @@ const Collection = () => {
           <div className="w-full flex flex-col gap-4 border-r-[2px] p-4">
             <div className="grid md:grid-cols-2 items-center gap-6">
               <div className="w-full flex items-center gap-3">
-                <label htmlFor="" className="w-full text-sm font-semibold">
+                <label
+                  htmlFor=""
+                  className="w-full text-sm font-semibold relative"
+                >
+                  <span className="text-sm mr-1 text-red-600">*</span>
                   Loan Name
                 </label>
                 <input
@@ -85,11 +149,15 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, loanName: e.target.value })
                   }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
               <div className="w-full flex gap-3 items-center">
-                <label htmlFor="" className="w-2/3 text-sm font-semibold">
+                <label
+                  htmlFor=""
+                  className="w-2/3 text-sm font-semibold relative"
+                >
+                  <span className="text-sm mr-1 text-red-600">*</span>
                   Loan Code
                 </label>
                 <input
@@ -99,7 +167,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, loanCode: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 />
               </div>
             </div>
@@ -118,7 +186,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, collectionMode: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 >
                   <option defaultValue selected>
                     --select--
@@ -147,7 +215,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, minAmount: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -158,6 +226,7 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm pl-[8px] font-semibold relative"
                 >
+                  <span className="text-sm mr-1 text-red-600">*</span>
                   Max Amount Rs.
                 </label>
                 <input
@@ -167,7 +236,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, maxAmount: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -177,6 +246,7 @@ const Collection = () => {
                 htmlFor=""
                 className="w-1/3 text-sm pl-[8px] font-semibold relative"
               >
+                <span className="text-sm mr-1 text-red-600">*</span>
                 Min Term
               </label>
               <input
@@ -187,7 +257,7 @@ const Collection = () => {
                   // setInputs({ ...inputs, minTerm: e.target.value })
                   setMinTerm(parseInt(e.target.value))
                 }
-                className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
               />
             </div>
 
@@ -196,6 +266,7 @@ const Collection = () => {
                 htmlFor=""
                 className="w-1/3 text-sm pl-[8px] font-semibold relative"
               >
+                <span className="text-sm mr-1 text-red-600">*</span>
                 Max Term
               </label>
               <input
@@ -206,7 +277,7 @@ const Collection = () => {
                   // setInputs({ ...inputs, maxTerm: e.target.value })
                   setMaxTerm(parseInt(e.target.value))
                 }
-                className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
               />
             </div>
 
@@ -224,7 +295,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, minAge: e.target.value })
                   }
-                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -244,7 +315,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, maxAge: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -264,7 +335,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, minROI: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -285,7 +356,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, maxROI: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -303,7 +374,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, ROIStep: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 >
                   <option value="">--select--</option>
                   <option value="1.0">1.0</option>
@@ -331,7 +402,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, collectionType: e.target.value })
                   }
-                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                  className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
                 />
               </div>
               <div className="w-full flex gap-3 items-center">
@@ -346,7 +417,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, processingFees: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 />
               </div>
             </div>
@@ -357,6 +428,7 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
+                  <span className="text-sm mr-1 text-red-600">*</span>
                   GST
                 </label>
                 <input
@@ -366,7 +438,7 @@ const Collection = () => {
                   onChange={(e) =>
                     setInputs({ ...inputs, GST: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
             </div>
@@ -379,6 +451,7 @@ const Collection = () => {
                 htmlFor=""
                 className="w-1/3 text-sm font-semibold relative"
               >
+                <span className="text-sm mr-1 text-red-600">*</span>
                 Legal Amount
               </label>
               <input
@@ -388,7 +461,7 @@ const Collection = () => {
                 onChange={(e) =>
                   setInputs({ ...inputs, legalAmount: e.target.value })
                 }
-                className="w-full focus:outline-none px-1 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px] "
+                className="w-full focus:outline-none px-1 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px] "
               />
             </div>
 
@@ -397,6 +470,7 @@ const Collection = () => {
                 htmlFor=""
                 className="w-1/3 text-sm font-semibold relative"
               >
+                <span className="text-sm mr-1 text-red-600">*</span>
                 Insurance Amount
               </label>
               <input
@@ -406,7 +480,7 @@ const Collection = () => {
                 onChange={(e) =>
                   setInputs({ ...inputs, insuranceAmount: e.target.value })
                 }
-                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
               />
             </div>
 
@@ -423,7 +497,7 @@ const Collection = () => {
                 onChange={(e) =>
                   setInputs({ ...inputs, fileCharges: e.target.value })
                 }
-                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
               />
             </div>
 
@@ -432,6 +506,7 @@ const Collection = () => {
                 htmlFor=""
                 className="w-1/3 text-sm font-semibold relative"
               >
+                <span className="text-sm mr-1 text-red-600">*</span>
                 Grace Period
               </label>
               <input
@@ -440,7 +515,7 @@ const Collection = () => {
                 onChange={(e) =>
                   setInputs({ ...inputs, gracePeriod: e.target.value })
                 }
-                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
               />
             </div>
 
@@ -456,7 +531,7 @@ const Collection = () => {
                 onChange={(e) =>
                   setInputs({ ...inputs, fineInterest: e.target.value })
                 }
-                className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 focus:ring-blue-400 p-[1px]"
               />
             </div>
 
@@ -466,14 +541,14 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
-                  {/* <span className="text-red-500 pr-[3px]">*</span> */}
+                  <span className="text-red-500 pr-[3px]">*</span>
                   EMI Type
                 </label>
                 <select
                   onChange={(e) =>
                     setInputs({ ...inputs, EMIType: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 >
                   <option value="">--select--</option>
                   <option value="FixedEmi">Fixed EMI</option>
@@ -488,14 +563,14 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
-                  {/* <span className="text-red-500 pr-[3px]">*</span> */}
+                  <span className="text-red-500 pr-[3px]">*</span>
                   Interest Rate Calculation Option
                 </label>
                 <select
                   onChange={(e) =>
                     setInputs({ ...inputs, interestOption: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 >
                   <option selected>--select--</option>
                   <option value="Simple">Simple</option>
@@ -511,14 +586,14 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
-                  {/* <span className="text-red-500 pr-[3px]">*</span> */}
+                  <span className="text-red-500 pr-[3px]">*</span>
                   Select Collection Type
                 </label>
                 <select
                   onChange={(e) =>
                     setInputs({ ...inputs, loanCollectionType: e.target.value })
                   }
-                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400"
+                  className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
                 >
                   <option selected>--select--</option>
                   <option value="Personal Loan">Personal Loan</option>
@@ -533,14 +608,14 @@ const Collection = () => {
                   htmlFor=""
                   className="w-1/3 text-sm font-semibold relative"
                 >
-                  {/* <span className="text-red-500 pr-[3px]">*</span> */}
+                  <span className="text-red-500 pr-[3px]">*</span>
                   Type Of Security
                 </label>
                 <select
                   onChange={(e) =>
                     setInputs({ ...inputs, typeOfSecurity: e.target.value })
                   }
-                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300 rounded-md focus:ring-blue-400 p-[1px]"
+                  className="w-full focus:outline-none font-[400] px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 >
                   <option value="" selected disabled>
                     --select--
@@ -558,7 +633,7 @@ const Collection = () => {
               <button
                 type="submit"
                 onClick={hadleSubmit}
-                className="px-6 py-2 bg-teal-700 font-semibold text-white rounded-md"
+                className="px-6 py-2 bg-teal-700 font-semibold text-white rounded-sm"
               >
                 Save
               </button>

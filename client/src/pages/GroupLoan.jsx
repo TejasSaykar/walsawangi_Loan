@@ -6,33 +6,29 @@ import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import Layout from "../components/Layout";
 
-const Loan = () => {
-  const [loan, setLoan] = useState([]);
+const GroupLoan = () => {
+  const [groupLoan, setGroupLoan] = useState([]);
   const [filteredData, setFilteredData] = useState(undefined);
   const [loanId, setLoanId] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // console.log("Filtered data : ", filteredData);
-
   useEffect(() => {
     if (loanId) {
-      const filterData = loan?.loans?.filter((loan) => loan.loanId === loanId);
+      const filterData = groupLoan?.filter((loan) => loan.loanId === loanId);
       setFilteredData(filterData[0]);
-      console.log(filterData);
     } else {
       setFilteredData(undefined);
     }
-  }, [loanId, loan]);
+  }, [loanId, groupLoan]);
 
-  const fetchLoans = async () => {
+  const fetchGroupLoans = async () => {
     try {
       setLoading(true);
-      const { data: loans } = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/api/loan/get-loans`
+      const { data: groupLoans } = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/api/loan/get-group-loans`
       );
-      if (loans) {
-        console.log("Loan Data : ", loans.loans);
-        setLoan(loans);
+      if (groupLoans) {
+        setGroupLoan(groupLoans.groupLoans);
         setLoading(false);
       }
     } catch (error) {
@@ -42,20 +38,24 @@ const Loan = () => {
   };
 
   useEffect(() => {
-    fetchLoans();
+    fetchGroupLoans();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, loanId) => {
     const conf = confirm("Are you sure to delete ?");
     if (!conf) {
       return;
     }
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}/api/loan/delete/${id}`
+        `${import.meta.env.VITE_BASE_URL}/api/loan/delete-group-loan/${id}`,
+        {
+          params: { loanId },
+        }
       );
       if (data.success == true) {
-        fetchLoans();
+        message.success("Loan deleted !");
+        fetchGroupLoans();
       }
     } catch (error) {
       console.log(error);
@@ -65,16 +65,16 @@ const Loan = () => {
   const handleApprove = async (id) => {
     try {
       const { data } = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}/api/loan/status/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/loan/group-status/${id}`,
         {
           isApprove: true,
-          approveDate: new Date().toLocaleDateString()
+          approveDate: new Date().toLocaleDateString(),
         }
       );
       if (data) {
-        console.log("Status updated : ", data.loan);
+        // console.log("Status updated : ", data.loan);
         message.success("Loan Approved !");
-        fetchLoans();
+        fetchGroupLoans();
       }
     } catch (error) {
       console.log(error);
@@ -86,14 +86,14 @@ const Loan = () => {
       <div className="container max-w-screen px-4 mx-auto sm:px-8">
         <div>
           <h2 className="py-3 text-center font-semibold text-2xl text-stone-700">
-            Single Loans
+            Group Loans
           </h2>
         </div>
         <div className="">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
               <h2 className="text-sm font-bold text-blue-700">
-                Search Loan Details by Loan Id
+                Search Group Loan Details by Loan Id
               </h2>
               <input
                 type="text"
@@ -102,10 +102,10 @@ const Loan = () => {
               />
             </div>
             <Link
-              to={"/create-loan"}
+              to={"/create-group-loan"}
               className="bg-teal-700 px-5 py-2 rounded-md text-white font-semibold"
             >
-              Create Loan
+              Create Group Loan
             </Link>
           </div>
           <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
@@ -135,7 +135,7 @@ const Loan = () => {
                       scope="col"
                       className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
                     >
-                      Branch
+                      Group Name
                     </th>
                     <th
                       scope="col"
@@ -161,7 +161,14 @@ const Loan = () => {
                 <tbody>
                   {filteredData ? (
                     <>
-                      <tr key={filteredData._id} className={`"bg-white"`}>
+                      <tr
+                        key={filteredData._id}
+                        className={`${
+                          filteredData.status === true
+                            ? "bg-sky-400"
+                            : "bg-white"
+                        }`}
+                      >
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {filteredData?.loanId}
@@ -186,7 +193,7 @@ const Loan = () => {
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {filteredData.branch}
+                            {filteredData.groupName}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -196,7 +203,7 @@ const Loan = () => {
                               className="absolute inset-0 bg-green-200 rounded-full opacity-50"
                             ></span>
                             <span className="relative">
-                              {filteredData.loanTerm}
+                              {filteredData.term}
                             </span>
                           </span>
                         </td>
@@ -212,14 +219,20 @@ const Loan = () => {
                           )}
                           {filteredData.isApprove === true && (
                             <p className="text-gray-900 bg-green-200 w-fit px-2 py-1 rounded-xl text-xs font-bold whitespace-no-wrap">
-                              {filteredData.status === true ? "Closed" : "Active"}
+                              {filteredData.status === true
+                                ? "Closed"
+                                : "Active"}
                             </p>
                           )}
                         </td>
 
                         <td className="px-5 py-5 text-sm  border-b border-gray-200">
                           <span className="relative px-3 flex gap-4 items-center py-1 font-semibold leading-tight">
-                            <Link onClick={() => handleDelete(loan._id)}>
+                            <Link
+                              onClick={() =>
+                                handleDelete(loan._id, loan.loanId)
+                              }
+                            >
                               <span
                                 className="text-xl cursor-pointer text-red-600"
                                 title="Delete"
@@ -232,9 +245,14 @@ const Loan = () => {
                       </tr>
                     </>
                   ) : (
-                    loan?.loans?.map((loan) => (
+                    groupLoan?.map((loan) => (
                       <>
-                        <tr key={loan._id} className={`bg-white font-medium`}>
+                        <tr
+                          key={loan._id}
+                          className={`${
+                            loan.status === true ? "bg-sky-400" : "bg-white"
+                          } font-medium`}
+                        >
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {loan?.loanId}
@@ -259,20 +277,9 @@ const Loan = () => {
                           </td>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {loan.branch}
+                              {loan.groupName}
                             </p>
                           </td>
-                          {/* <td className="px-5 py-5 text-sm border-b border-gray-200">
-                            <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0 bg-green-200 rounded-full opacity-50"
-                              ></span>
-                              <span className="relative">
-                                {loan.gurdianName}
-                              </span>
-                            </span>
-                          </td> */}
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <span className="relative inline-block px-3 py-1 font-semibold leading-tight text-green-900">
                               <span
@@ -284,7 +291,7 @@ const Loan = () => {
                           </td>
 
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
-                            {!loan.isApprove && (
+                            {loan.isApprove !== true && (
                               <button
                                 onClick={() => handleApprove(loan._id)}
                                 className="bg-teal-600 w-fit px-2 py-1 rounded-md text-white"
@@ -292,16 +299,20 @@ const Loan = () => {
                                 Approve
                               </button>
                             )}
-                            {loan.isApprove && (
+                            {loan.isApprove === true && (
                               <p className="text-gray-900 bg-green-200 w-fit px-2 py-1 rounded-xl text-xs font-bold whitespace-no-wrap">
-                                {loan.status === false ? "Active" : "Closed"}
+                                {loan.status === true ? "Closed" : "Active"}
                               </p>
                             )}
                           </td>
 
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <span className="relative px-3 flex gap-4 items-center py-1 font-semibold leading-tight">
-                              <Link onClick={() => handleDelete(loan._id)}>
+                              <Link
+                                onClick={() =>
+                                  handleDelete(loan._id, loan.loanId)
+                                }
+                              >
                                 <span
                                   className="text-xl cursor-pointer text-red-600"
                                   title="Delete"
@@ -331,4 +342,4 @@ const Loan = () => {
   );
 };
 
-export default Loan;
+export default GroupLoan;

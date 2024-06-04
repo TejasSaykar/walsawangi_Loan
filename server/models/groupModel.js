@@ -36,7 +36,6 @@ const groupSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: true,
     },
     memberCode: {
       type: String,
@@ -44,7 +43,6 @@ const groupSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
