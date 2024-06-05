@@ -109,7 +109,7 @@ const CreateLoan = () => {
     if (!newInputs.memberId) {
       return message.error("Member id is required !");
     }
-    if (!newInputs.branchName) {
+    if (!newInputs.branch) {
       return message.error("Branch name is required !");
     }
     if (!newInputs.loanAmount) {
@@ -143,7 +143,7 @@ const CreateLoan = () => {
           gender: inputs.gender,
           term: inputs.term,
           loanTerm: inputs.term,
-          branch: inputs.branchName,
+          // branch: inputs.branchName,
           productName: collections.loanName,
           processingFees: collections.processingFees,
           fileCharges: collections.fileCharges,
