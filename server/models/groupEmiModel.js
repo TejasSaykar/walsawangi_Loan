@@ -109,6 +109,10 @@ const groupEmiSchema = new mongoose.Schema(
     bankAC: {
       type: String,
     },
+    penaltyCharges: {
+      type: Number,
+    },
+
     bankName: {
       type: String,
     },

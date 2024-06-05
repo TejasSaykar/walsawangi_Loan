@@ -14,9 +14,31 @@ const Loan = () => {
 
   // console.log("Filtered data : ", filteredData);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 6;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = loan.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(loan.length / recordsPerPage);
+  // const numbers = [...Array(npage + 1).keys()].slice(1);
+  const preDisabled = currentPage === 1;
+  const nextDisabled = currentPage === npage;
+
+  const prePage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   useEffect(() => {
     if (loanId) {
-      const filterData = loan?.loans?.filter((loan) => loan.loanId === loanId);
+      const filterData = loan?.filter((loan) => loan.loanId === loanId);
       setFilteredData(filterData[0]);
       console.log(filterData);
     } else {
@@ -31,8 +53,8 @@ const Loan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/get-loans`
       );
       if (loans) {
-        console.log("Loan Data : ", loans.loans);
-        setLoan(loans);
+        // console.log("Loan Data : ", loans.loans);
+        setLoan(loans.loans);
         setLoading(false);
       }
     } catch (error) {
@@ -68,7 +90,7 @@ const Loan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/status/${id}`,
         {
           isApprove: true,
-          approveDate: new Date().toLocaleDateString()
+          approveDate: new Date().toLocaleDateString(),
         }
       );
       if (data) {
@@ -112,46 +134,52 @@ const Loan = () => {
             <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
               <table className="min-w-full leading-normal">
                 <thead>
-                  <tr>
+                  <tr className="bg-stone-700 text-stone-100">
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Loan Id
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Loan Name
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
+                    >
+                      Applicant Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Bank Name
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
-                      Branch
+                      Mode
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Term
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Status
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Action
                     </th>
@@ -181,12 +209,17 @@ const Loan = () => {
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
+                            {filteredData?.applicantName}
+                          </p>
+                        </td>
+                        <td className="px-5 py-5 text-sm border-b border-gray-200">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {filteredData.bankName}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {filteredData.branch}
+                            {filteredData.mode}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -212,7 +245,9 @@ const Loan = () => {
                           )}
                           {filteredData.isApprove === true && (
                             <p className="text-gray-900 bg-green-200 w-fit px-2 py-1 rounded-xl text-xs font-bold whitespace-no-wrap">
-                              {filteredData.status === true ? "Closed" : "Active"}
+                              {filteredData.status === true
+                                ? "Closed"
+                                : "Active"}
                             </p>
                           )}
                         </td>
@@ -232,7 +267,7 @@ const Loan = () => {
                       </tr>
                     </>
                   ) : (
-                    loan?.loans?.map((loan) => (
+                    records?.map((loan) => (
                       <>
                         <tr key={loan._id} className={`bg-white font-medium`}>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -254,12 +289,17 @@ const Loan = () => {
                           </td>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <p className="text-gray-900 whitespace-no-wrap">
+                              {loan?.applicantName}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 text-sm border-b border-gray-200">
+                            <p className="text-gray-900 whitespace-no-wrap">
                               {loan.bankName}
                             </p>
                           </td>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {loan.branch}
+                              {loan.mode}.
                             </p>
                           </td>
                           {/* <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -324,6 +364,31 @@ const Loan = () => {
                 </tbody>
               </table>
             </div>
+            {!filteredData && (
+              <div className="w-full flex items-center gap-3 justify-center">
+                <button
+                  onClick={prePage}
+                  disabled={preDisabled}
+                  className={`${
+                    preDisabled && "bg-teal-300 cursor-not-allowed"
+                  } px-5 py-2 bg-teal-600 text-white rounded-md`}
+                >
+                  Prev
+                </button>
+                <span className="ring-1 ring-teal-300 px-3 py-1">
+                  {currentPage} of {npage}
+                </span>
+                <button
+                  onClick={nextPage}
+                  disabled={nextDisabled}
+                  className={`${
+                    nextDisabled && "bg-teal-300 cursor-not-allowed"
+                  } px-5 py-2 bg-teal-600 text-white rounded-md`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

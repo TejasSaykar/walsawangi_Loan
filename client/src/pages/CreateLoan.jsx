@@ -567,15 +567,20 @@ const CreateLoan = () => {
                 <label htmlFor="" className="text-sm font-semibold relative">
                   Mode
                 </label>
-                <input
-                  required
-                  type="text"
-                  value={inputs.mode}
+                <select
                   onChange={(e) =>
                     setNewInputs({ ...newInputs, mode: e.target.value })
                   }
                   className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
-                />
+                >
+                  <option selected disabled>
+                    --select--
+                  </option>
+                  <option value="DLY.">DLY.</option>
+                  <option value="WLY.">WLY.</option>
+                  <option value="MLY.">MLY.</option>
+                  <option value="YLY.">YLY.</option>
+                </select>
               </div>
             </div>
 

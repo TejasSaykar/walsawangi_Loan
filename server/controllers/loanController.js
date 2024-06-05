@@ -3,6 +3,7 @@ const emiModel = require("../models/emiModel");
 
 const groupLoanModel = require("../models/groupLoanModel");
 const groupEmiModel = require("../models/groupEmiModel");
+const moment = require("moment");
 
 exports.loan = async (req, res) => {
   const { term } = req.body;
@@ -16,17 +17,50 @@ exports.loan = async (req, res) => {
   }
 
   const loanRecords = [];
-  const startDate = new Date(req.body.dateOfJoining);
+  const startDate = moment(req.body.dateOfJoining).format("YYYY-MM-DD");
 
-  for (let i = 1; i <= term; i++) {
-    const emiDate = new Date(startDate);
-    emiDate.setMonth(emiDate.getMonth() + i);
+  if (req.body.mode === "DLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "days");
 
-    loanRecords.push({
-      ...req.body,
-      dueDate: emiDate.toLocaleDateString(),
-    });
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else if (req.body.mode === "WLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "weeks");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else if (req.body.mode === "MLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "months");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "years");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
   }
+
   try {
     const emi = await emiModel.insertMany(loanRecords);
     const loan = await new loanModel({ ...req.body }).save();
@@ -288,17 +322,50 @@ exports.groupLoan = async (req, res) => {
   const { term } = req.body;
 
   const loanRecords = [];
-  const startDate = new Date(req.body.dateOfJoining);
+  const startDate = moment(req.body.dateOfJoining).format("YYYY-MM-DD");
 
-  for (let i = 1; i <= term; i++) {
-    const emiDate = new Date(startDate);
-    emiDate.setMonth(emiDate.getMonth() + i);
+  if (req.body.mode === "DLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "days");
 
-    loanRecords.push({
-      ...req.body,
-      dueDate: emiDate.toLocaleDateString(),
-    });
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else if (req.body.mode === "WLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "weeks");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else if (req.body.mode === "MLY") {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "months");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
+  } else {
+    for (let i = 1; i <= term; i++) {
+      const emiDate = moment(startDate);
+      emiDate.add(i, "years");
+
+      loanRecords.push({
+        ...req.body,
+        dueDate: emiDate.format("YYYY-MM-DD"),
+      });
+    }
   }
+
   try {
     const groupEmi = await groupEmiModel.insertMany(loanRecords);
     const groupLoan = await new groupLoanModel({ ...req.body }).save();

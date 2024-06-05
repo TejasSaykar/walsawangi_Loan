@@ -96,6 +96,7 @@ const RepayGroup = () => {
       return message.error("Total amount is required !");
     }
     try {
+      setLoading(true);
       const { data } = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/api/loan/update-group/${
           singleUnpaid._id
@@ -106,6 +107,13 @@ const RepayGroup = () => {
         }
       );
       if (data) {
+        setLoan({
+          totalPaid: "",
+          advanceAmount: "",
+        });
+        fetchLoans();
+        fetchEmis();
+        setLoading(false);
         setSingleUnpaid({
           amount: "",
           EMI: "",
@@ -123,15 +131,10 @@ const RepayGroup = () => {
           paymentNumber: "",
           payDate: "",
         });
-        setLoan({
-          totalPaid: "",
-          advanceAmount: "",
-        });
-        fetchLoans();
-        fetchEmis();
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       message.error(error.response.data.message);
     }
   };
@@ -140,7 +143,9 @@ const RepayGroup = () => {
     <Layout>
       <div className="w-full">
         <div>
-          <h2 className="text-center pt-3 font-semibold text-2xl text-stone-700">Group Loan Re-Payment</h2>
+          <h2 className="text-center pt-3 font-semibold text-2xl text-stone-700">
+            Group Loan Re-Payment
+          </h2>
         </div>
         <div className="w-full grid grid-cols-12">
           <div
@@ -874,9 +879,11 @@ const RepayGroup = () => {
                   ) : (
                     <button
                       onClick={handleUpdate}
-                      className="bg-teal-600 text-white font-semibold px-4 py-2 rounded-md"
+                      className={`${
+                        loading && "bg-teal-400 animate-pulse"
+                      } bg-teal-600 text-white font-semibold px-4 py-2 rounded-md`}
                     >
-                      Update
+                      {loading ? "Loading..." : "Update"}
                     </button>
                   )}
                   <button className="bg-red-600 text-white font-semibold px-4 py-2 rounded-md">
@@ -982,7 +989,9 @@ const RepayGroup = () => {
                                               aria-hidden="true"
                                               className="absolute inset-0 bg-green-200 rounded-full opacity-50"
                                             ></span>
-                                            <span className="relative">0</span>
+                                            <span className="relative">
+                                              {item?.penaltyCharges ? item?.penaltyCharges : 0 }
+                                            </span>
                                           </span>
                                         </td>
                                       </tr>

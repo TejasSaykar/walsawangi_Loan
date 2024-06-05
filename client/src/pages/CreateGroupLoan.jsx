@@ -42,20 +42,22 @@ const CreateGroupLoan = () => {
   const fetchGroupByName = async (e) => {
     setInputs({ ...inputs, customerName: e.target.value });
     let name = e.target.value;
+    console.log("Target : ", name);
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/api/group/find-by-name`,
         {
-          params: { name },
+          params: { groupName: name },
         }
       );
       if (data) {
-        console.log("Group Data : ", data.group);
+        // console.log("Group Data : ", data.group);
         setInputs(data.group);
         setNewInputs({
           ...newInputs,
           groupName: data.group.groupName,
           groupHead: data.group.groupHead,
+          branchName: data.group.groupBranch,
           phoneNo: data.group.phoneNo,
           address: data.group.address,
         });
@@ -117,9 +119,6 @@ const CreateGroupLoan = () => {
     if (!newInputs.groupId) {
       return message.error("Group id is required !");
     }
-    if (!newInputs.branchName) {
-      return message.error("Branch name is required !");
-    }
     if (!newInputs.loanAmount) {
       return message.error("Loan amount is required !");
     }
@@ -136,11 +135,8 @@ const CreateGroupLoan = () => {
         `${import.meta.env.VITE_BASE_URL}/api/loan/group-loan`,
         {
           ...newInputs,
-          // groupName: inputs.groupName,
-          // groupHead: inputs.groupHead,
-          // phoneNo: inputs.phoneNo,
-          // address: inputs.address,
           term: inputs.term,
+          branchName: inputs.groupBranch,
           loanTerm: inputs.term,
           productName: collections.loanName,
           processingFees: collections.processingFees,
@@ -314,10 +310,10 @@ const CreateGroupLoan = () => {
                 <input
                   required
                   type="text"
-                  value={newInputs.branchName}
-                  onChange={(e) =>
-                    setNewInputs({ ...newInputs, branchName: e.target.value })
-                  }
+                  value={inputs.groupBranch}
+                  // onChange={(e) =>
+                  //   setNewInputs({ ...newInputs, branchName: e.target.value })
+                  // }
                   className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
               </div>
@@ -501,15 +497,20 @@ const CreateGroupLoan = () => {
                 <label htmlFor="" className="text-sm font-semibold relative">
                   Mode
                 </label>
-                <input
-                  required
-                  type="text"
-                  value={newInputs.mode}
+                <select
                   onChange={(e) =>
                     setNewInputs({ ...newInputs, mode: e.target.value })
                   }
                   className="w-full py-[2px] focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400"
-                />
+                >
+                  <option selected disabled>
+                    --select--
+                  </option>
+                  <option value="DLY.">DLY.</option>
+                  <option value="WLY.">WLY.</option>
+                  <option value="MLY.">MLY.</option>
+                  <option value="YLY.">YLY.</option>
+                </select>
               </div>
             </div>
 

@@ -12,6 +12,28 @@ const GroupLoan = () => {
   const [loanId, setLoanId] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 6;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = groupLoan.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(groupLoan.length / recordsPerPage);
+  // const numbers = [...Array(npage + 1).keys()].slice(1);
+  const preDisabled = currentPage === 1;
+  const nextDisabled = currentPage === npage;
+
+  const prePage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   useEffect(() => {
     if (loanId) {
       const filterData = groupLoan?.filter((loan) => loan.loanId === loanId);
@@ -112,46 +134,52 @@ const GroupLoan = () => {
             <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
               <table className="min-w-full leading-normal">
                 <thead>
-                  <tr>
+                  <tr className="bg-stone-800 text-stone-100">
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Loan Id
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Loan Name
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Bank Name
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Group Name
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
+                    >
+                      Mode
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Term
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Status
                     </th>
                     <th
                       scope="col"
-                      className="px-5 py-3 font-semibold text-sm text-left text-gray-800 uppercase bg-white border-b border-gray-200"
+                      className="px-5 py-3 font-semibold text-sm text-left border-b border-gray-200"
                     >
                       Action
                     </th>
@@ -194,6 +222,11 @@ const GroupLoan = () => {
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {filteredData.groupName}
+                          </p>
+                        </td>
+                        <td className="px-5 py-5 text-sm border-b border-gray-200">
+                          <p className="text-gray-900 whitespace-no-wrap">
+                            {filteredData.mode}
                           </p>
                         </td>
                         <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -245,7 +278,7 @@ const GroupLoan = () => {
                       </tr>
                     </>
                   ) : (
-                    groupLoan?.map((loan) => (
+                    records?.map((loan) => (
                       <>
                         <tr
                           key={loan._id}
@@ -278,6 +311,11 @@ const GroupLoan = () => {
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {loan.groupName}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 text-sm border-b border-gray-200">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {loan.mode}
                             </p>
                           </td>
                           <td className="px-5 py-5 text-sm border-b border-gray-200">
@@ -335,6 +373,31 @@ const GroupLoan = () => {
                 </tbody>
               </table>
             </div>
+            {!filteredData && (
+              <div className="w-full flex items-center gap-3 justify-center">
+                <button
+                  onClick={prePage}
+                  disabled={preDisabled}
+                  className={`${
+                    preDisabled && "bg-teal-300 cursor-not-allowed"
+                  } px-5 py-2 bg-teal-600 text-white rounded-md`}
+                >
+                  Prev
+                </button>
+                <span className="ring-1 ring-teal-300 px-3 py-1">
+                  {currentPage} of {npage}
+                </span>
+                <button
+                  onClick={nextPage}
+                  disabled={nextDisabled}
+                  className={`${
+                    nextDisabled && "bg-teal-300 cursor-not-allowed"
+                  } px-5 py-2 bg-teal-600 text-white rounded-md`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
