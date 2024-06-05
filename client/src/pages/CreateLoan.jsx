@@ -297,7 +297,7 @@ const CreateLoan = () => {
                   type="text"
                   value={newInputs.branchName}
                   onChange={(e) =>
-                    setNewInputs({ ...newInputs, branchName: e.target.value })
+                    setNewInputs({ ...newInputs, branch: e.target.value })
                   }
                   className="w-full focus:outline-none px-2 ring-1 ring-gray-300  focus:ring-blue-400 p-[1px]"
                 />
