@@ -140,6 +140,9 @@ const emiSchema = new mongoose.Schema(
     fromAC: {
       type: String,
     },
+    penaltyCharges: {
+      type: Number,
+    },
     amount: {
       type: Number,
     },

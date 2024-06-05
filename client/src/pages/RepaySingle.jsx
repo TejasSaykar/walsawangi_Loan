@@ -89,8 +89,8 @@ const RepaySingle = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if(!singleUnpaid.paymentNumber){
-      return message.error("Payment number is required!")
+    if (!singleUnpaid.paymentNumber) {
+      return message.error("Payment number is required!");
     }
     try {
       const { data } = await axios.put(
@@ -135,7 +135,9 @@ const RepaySingle = () => {
     <Layout>
       <div className="w-full">
         <div>
-          <h2 className="text-center font-semibold text-2xl pt-3 text-stone-700">Single Loan Re-Payment</h2>
+          <h2 className="text-center font-semibold text-2xl pt-3 text-stone-700">
+            Single Loan Re-Payment
+          </h2>
         </div>
         <div className="w-full grid grid-cols-12">
           <div
@@ -1010,7 +1012,11 @@ const RepaySingle = () => {
                                               aria-hidden="true"
                                               className="absolute inset-0 bg-green-200 rounded-full opacity-50"
                                             ></span>
-                                            <span className="relative">0</span>
+                                            <span className="relative">
+                                              {item?.penaltyCharges
+                                                ? item?.penaltyCharges
+                                                : 0}
+                                            </span>
                                           </span>
                                         </td>
                                       </tr>
